@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js"></script>
+    <title>INPUT PROTOTYPE</title>
+</head>
+<body>
+    <div id="map">
+    </div>
+    <div id="form-container">
+        <form id="form">
+        <fieldset>
+        <p>Click on the map to add a note:</p>
+        <label for="lat">Lat:</label><br>
+        <input type="text" id="lat" name="lat"><br>
+        <label for="lng">Lng:</label><br>
+        <input type="text" id="lng" name="lng"><br>
+        </fieldset>
+        <fieldset>
+        <label for="annotation">Add a note to the map:</label>
+        <textarea id="annotation" name="annotation" rows="4" cols="50"  placeholder="Type your note here"></textarea>
+        <div id="char-count">
+            <span id="current">0</span>
+            <span id="maximum">/ 1000</span>
+          </div>
+        </fieldset>
+        <fieldset>
+        <label for="media-upload">Upload an image or video:</label>
+        <input type="file" id="media-upload" name="media-upload"><br>
+        </fieldset>
+        <input type="button" value="ADD" class="add-button">
+        </form>
+    </div>
+</body>
+<script src="script.js"></script>
+</html>
