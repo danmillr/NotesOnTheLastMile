@@ -4,10 +4,8 @@ body {
 }
 
 #form-container {
-    display: table;
     position: absolute;
     width: 350px;
-    height: 60%;
     margin: 10px 10px;
     word-wrap: anywhere;
     padding: 10px;
@@ -26,9 +24,52 @@ body {
     width: 100%;
 }
 
+#add-container {
+    position: absolute;
+    width: 30px;
+    margin: 10px 10px;
+    word-wrap: anywhere;
+    padding: 10px;
+    border: 4px;
+    border-radius: 3px;
+    font-size: 12px;
+    text-align: left;
+    color: #222;
+    background: lightgray;
+}
+
 .add-button {
     margin: 10px 0;
     padding: 10px;
 }
 
+.input-marker {
+    background-image: url('map-pin-svgrepo-com.svg');
+    background-size: cover;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transform: translate(0px, -15px);
+  }
 
+.mapboxgl-marker {
+    cursor: pointer;
+}
+
+.mapboxgl-popup {
+    max-width: 200px;
+  }
+  
+.mapboxgl-popup-content {
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+.form-container-display {
+    display: table;
+}
+
+.hide {
+    display: none;
+}

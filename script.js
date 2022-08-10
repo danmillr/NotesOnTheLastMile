@@ -1,6 +1,8 @@
+const MapBoxToken = config.MAPBOX_TOKEN
+
 // Mapbox
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiZGlub2RhbiIsImEiOiJjaWw5dGdsanMwMGVpdHVseHFmZjQ4MXQ0In0.UbS-xJ75RFFLkfewicoikg';
+mapboxgl.accessToken = MapBoxToken;
 const map = new mapboxgl.Map({
 container: 'map', // container id
 style: 'mapbox://styles/dinodan/cl605lbbl005614ocxug4gxfs',
@@ -8,16 +10,29 @@ center: [-74.009, 40.673], // starting position
 zoom: 14.26 // starting zoom
 });
 
-var marker = new mapboxgl.Marker();
+
+// Vars
+let result;
+var mapEditButton = document.querySelector('.toggle-edit-map')
 var addButton = document.querySelector('.add-button');  
 const form = document.querySelector('form');
+const formContainer = document.querySelector('#form-container');
 var textarea = document.querySelector('textarea');
+var marker = new mapboxgl.Marker({ color: 'grey'});
+let mapEdit = false;
 
+// Functions
 function add_marker (event) {
-  var coordinates = event.lngLat;
-  marker.setLngLat(coordinates).addTo(map);
-  document.getElementById('lng').value = coordinates.lng
-  document.getElementById('lat').value = coordinates.lat
+  if (mapEdit == true){
+    var coordinates = event.lngLat;
+
+    marker.setLngLat(coordinates).addTo(map);
+  
+    document.getElementById('lng').value = coordinates.lng
+    document.getElementById('lat').value = coordinates.lat
+  } else {
+    return
+  };
 }
 
 function textCount(event) {
@@ -28,23 +43,47 @@ function textCount(event) {
     current.textContent = characterCount;
 }
 
-function handleSubmit(event) {
+function handleSubmit (event) {
+    var input_marker = new mapboxgl
+      .Marker({ color: 'black'});
+   
     const data = new FormData(form);
     const value = Object.fromEntries(data.entries());
+    console.log(data)
+    console.log(value)
 
-    //add new marker to map
-    const el = document.createElement('div');
-    el.className = 'marker';
-    el.style.backgroundImage = 'url(map-pin-svgrepo-com.svg)';
-    el.style.width = '40px';
-    el.style.height = '40px';
-    new mapboxgl.Marker(el)
-    .setLngLat([value.lng,value.lat])
-    .addTo(map);
+    input_marker
+      .setLngLat([value.lng,value.lat])
+      .setPopup(
+        new mapboxgl.Popup({ offset: 25 })
+          .setHTML(
+            `<p>${value.annotation}</p>`
+          )
+      )
+      .addTo(map);
+
     //reset the form
     form.reset();
-  }
+}
 
+function toggleMapEdit (event) {
+  if (mapEdit == false) {
+    mapEdit = true;
+    formContainer.classList.remove('hide')
+    formContainer.classList.add('form-container-display')
+
+  } else if (mapEdit == true) {
+    mapEdit = false;
+    formContainer.classList.remove('form-container-display')
+    formContainer.classList.add('hide')
+
+    //Clear marker
+    marker.remove();
+  }
+}
+
+// Events
 textarea.addEventListener('input', textCount);
 map.on('click', add_marker);
 addButton.addEventListener('click', handleSubmit);
+mapEditButton.addEventListener('click', toggleMapEdit);
