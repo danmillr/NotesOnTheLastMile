@@ -12,16 +12,30 @@ zoom: 14.26 // starting zoom
 
 
 // Vars
-let result;
 var mapEditButton = document.querySelector('.toggle-edit-map')
 var addButton = document.querySelector('.add-button');  
 const form = document.querySelector('form');
 const formContainer = document.querySelector('#form-container');
 var textarea = document.querySelector('textarea');
+var mediaInput = document.querySelector('#mediaUpload');
+let imageResult;
 var marker = new mapboxgl.Marker({ color: 'grey'});
 let mapEdit = false;
 
+let annotations = {
+  "annotationList": []
+};
+
 // Functions
+function pageLoadFn(event){
+  if(localStorage.getItem('annotations') === null){
+    return
+  } else {
+    annotations = JSON.parse(localStorage.getItem('annotations'))
+    annotations.annotationList.forEach(loadMarkers)
+  }
+}
+
 function add_marker (event) {
   if (mapEdit == true){
     var coordinates = event.lngLat;
@@ -44,20 +58,32 @@ function textCount(event) {
 }
 
 function handleSubmit (event) {
+  event.preventDefault();
+
     var input_marker = new mapboxgl
       .Marker({ color: 'black'});
-   
+
     const data = new FormData(form);
     const value = Object.fromEntries(data.entries());
-    console.log(data)
-    console.log(value)
+
+    mapAnnotation = {
+      lat: value.lat,
+      lng: value.lng,
+      annotation: value.annotation,
+      image: imageResult
+    }
+
+  // add the annotation object to the array
+  annotations.annotationList.push(mapAnnotation);
+  // store the tweets in local storage
+  localStorage.setItem('annotations', JSON.stringify(annotations))
 
     input_marker
       .setLngLat([value.lng,value.lat])
       .setPopup(
         new mapboxgl.Popup({ offset: 25 })
           .setHTML(
-            `<p>${value.annotation}</p>`
+            `<p>${mapAnnotation.annotation}</p><img src="${mapAnnotation.image}">`
           )
       )
       .addTo(map);
@@ -66,24 +92,62 @@ function handleSubmit (event) {
     form.reset();
 }
 
+function loadMarkers (input) {
+  var input_marker = new mapboxgl
+      .Marker({ color: 'black'});
+  
+  input_marker
+    .setLngLat([input.lng,input.lat])
+    .setPopup(
+      new mapboxgl.Popup({ offset: 25 })
+        .setHTML(
+          `<p>${input.annotation}</p><img src="${input.image}">`
+        )
+    )
+    .addTo(map);
+}
+
 function toggleMapEdit (event) {
   if (mapEdit == false) {
     mapEdit = true;
     formContainer.classList.remove('hide')
     formContainer.classList.add('form-container-display')
+    mapEditButton.classList.add('rotate');
 
   } else if (mapEdit == true) {
     mapEdit = false;
     formContainer.classList.remove('form-container-display')
     formContainer.classList.add('hide')
+    mapEditButton.classList.remove('rotate');
 
     //Clear marker
     marker.remove();
   }
 }
 
+function handleImage(input) {
+  var reader;
+
+  if(input.files && input.files[0]){
+      reader = new FileReader();
+
+      reader.onload = function(event){
+          
+          imageResult = event.target.result
+          console.log(imageResult)
+          return imageResult
+      }
+      reader.readAsDataURL(input.files[0]);
+  }
+  console.log(input.files)
+}
+
 // Events
+window.addEventListener('load', pageLoadFn)
 textarea.addEventListener('input', textCount);
 map.on('click', add_marker);
 addButton.addEventListener('click', handleSubmit);
 mapEditButton.addEventListener('click', toggleMapEdit);
+mediaInput.addEventListener("change", function() {
+  handleImage(this);
+});

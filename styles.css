@@ -8,9 +8,9 @@ body {
     width: 350px;
     margin: 10px 10px;
     word-wrap: anywhere;
-    padding: 10px;
+    padding: 50px 10px 10px 10px;
     border: 4px;
-    border-radius: 3px;
+    border-radius: 10px;
     font-size: 12px;
     text-align: left;
     color: #222;
@@ -31,7 +31,7 @@ body {
     word-wrap: anywhere;
     padding: 10px;
     border: 4px;
-    border-radius: 3px;
+    border-radius: 10px;
     font-size: 12px;
     text-align: left;
     color: #222;
@@ -41,6 +41,16 @@ body {
 .add-button {
     margin: 10px 0;
     padding: 10px;
+}
+
+.toggle-edit-map {
+    background-image: url('plus-svgrepo-com.svg');
+    height: 30px;
+    cursor: pointer;
+}
+
+.rotate {
+    transform: rotate(45deg);
 }
 
 .input-marker {
@@ -64,6 +74,10 @@ body {
 .mapboxgl-popup-content {
     text-align: center;
     font-family: 'Open Sans', sans-serif;
+  }
+
+  .mapboxgl-popup-content img {
+    max-width: 200px;
   }
 
 .form-container-display {
