@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter">">
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js"></script>
     <title>INPUT PROTOTYPE</title>
@@ -14,14 +15,14 @@
     <div id="form-container" class="hide">
         <form id="form">
         <fieldset>
-        <p>Click on the map to add a note:</p>
+        <h3>Click on the map to add note location:</h3>
         <label for="lat">Lat:</label><br>
         <input type="text" id="lat" name="lat"><br>
         <label for="lng">Lng:</label><br>
         <input type="text" id="lng" name="lng"><br>
         </fieldset>
         <fieldset>
-        <label for="annotation">Add a note to the map:</label>
+        <label for="annotation"><h3>Enter note text:</h3></label>
         <textarea id="annotation" name="annotation" rows="4" cols="50"  placeholder="Type your note here"></textarea>
         <div id="char-count">
             <span id="current">0</span>
@@ -29,15 +30,26 @@
           </div>
         </fieldset>
         <fieldset>
-        <label for="mediaUpload">Upload an image or video:</label>
+        <label for="mediaUpload"><h3>Upload an image or video:</h3></label>
         <input type="file" id="mediaUpload" name="mediaUpload" accept="image/*"><br>
         </fieldset>
-        <input type="button" value="ADD" class="add-button">
+        <input type="button" value="ADD TO MAP" class="add-button">
         </form>
     </div>
     <div id="add-container">
         <div class="toggle-edit-map"></div>
-        ,<img src="" alt="">
+    </div>
+    <div id="info-container" class="">
+        <div id="about-container" class="">
+            <h1>Notes on the Last Mile</h1>
+            <p> About RHAFTS Last-Mile Coalition: <br><br>
+                There are several elected officials and organizations working toward solutions to the impacts Last-Mile e-commerce distribution centers bring 
+                to vulnerable neighborhoods in NYC like ours. Our community is struggling to understand how 6 distribution centers can practically and safely operate 
+                in our tiny neighborhood with limited truck routes. Our aim is to share information about these possible solutions in a transparent and open forum.</p>
+        </div>
+    </div>
+    <div id="info-button">
+        <div id="info-icon-container" class="close-icon"></div>
     </div>
 </body>
 <script src="config.js"></script>

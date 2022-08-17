@@ -5,7 +5,7 @@ const MapBoxToken = config.MAPBOX_TOKEN
 mapboxgl.accessToken = MapBoxToken;
 const map = new mapboxgl.Map({
 container: 'map', // container id
-style: 'mapbox://styles/dinodan/cl605lbbl005614ocxug4gxfs',
+style: 'mapbox://styles/dinodan/cl6pd3qoh005h14mlf4gkz5g0',
 center: [-74.009, 40.673], // starting position
 zoom: 14.26 // starting zoom
 });
@@ -14,6 +14,8 @@ zoom: 14.26 // starting zoom
 // Vars
 var mapEditButton = document.querySelector('.toggle-edit-map')
 var addButton = document.querySelector('.add-button');  
+var infoButton = document.querySelector('#info-button');
+var infoIcon = document.querySelector("#info-icon-container");
 const form = document.querySelector('form');
 const formContainer = document.querySelector('#form-container');
 var textarea = document.querySelector('textarea');
@@ -21,6 +23,8 @@ var mediaInput = document.querySelector('#mediaUpload');
 let imageResult;
 var marker = new mapboxgl.Marker({ color: 'grey'});
 let mapEdit = false;
+let infoView = true;
+const infoContainer = document.querySelector('#info-container')
 
 let annotations = {
   "annotationList": []
@@ -61,7 +65,7 @@ function handleSubmit (event) {
   event.preventDefault();
 
     var input_marker = new mapboxgl
-      .Marker({ color: 'black'});
+      .Marker({ color: 'blue'});
 
     const data = new FormData(form);
     const value = Object.fromEntries(data.entries());
@@ -94,7 +98,7 @@ function handleSubmit (event) {
 
 function loadMarkers (input) {
   var input_marker = new mapboxgl
-      .Marker({ color: 'black'});
+      .Marker({ color: 'blue'});
   
   input_marker
     .setLngLat([input.lng,input.lat])
@@ -125,6 +129,22 @@ function toggleMapEdit (event) {
   }
 }
 
+function toggleInfoView (event) {
+  console.log('toggle')
+  if (infoView == false) {
+    infoView = true;
+    infoContainer.classList.remove('hide')
+    infoIcon.classList.remove('info-icon')
+    infoIcon.classList.add('close-icon')
+
+  } else if (infoView == true) {
+    infoView = false;
+    infoIcon.classList.remove('close-icon')
+    infoIcon.classList.add('info-icon')
+    infoContainer.classList.add('hide')
+  }
+}
+
 function handleImage(input) {
   var reader;
 
@@ -151,3 +171,4 @@ mapEditButton.addEventListener('click', toggleMapEdit);
 mediaInput.addEventListener("change", function() {
   handleImage(this);
 });
+infoButton.addEventListener('click', toggleInfoView);
